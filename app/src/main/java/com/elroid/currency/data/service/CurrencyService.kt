@@ -1,5 +1,6 @@
 package com.elroid.currency.data.service
 
+import com.elroid.currency.BuildConfig
 import com.elroid.currency.data.model.RateResult
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,6 +13,6 @@ interface CurrencyService {
     ): List<RateResult>
 
     companion object {
-        private const val KEY = "TBD"
+        private const val KEY = BuildConfig.CF_API_KEY
     }
 }

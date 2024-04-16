@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -20,6 +22,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val cfApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("CURRENCY_FREAKS_API_KEY")
+        buildConfigField ("String", "CF_API_KEY", "\"$cfApiKey\"")
     }
 
     buildTypes {
@@ -38,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
