@@ -1,4 +1,4 @@
-package com.elroid.currency
+package com.elroid.currency.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

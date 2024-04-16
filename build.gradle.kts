@@ -2,4 +2,6 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
+    alias(libs.plugins.ksp)
+    kotlin(libs.plugins.serialization.get().pluginId).version(libs.versions.kotlin)
 }
