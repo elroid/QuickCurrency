@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.kotlinx.coroutinesCore)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.networking.okhttp)
+    implementation(libs.networking.okhttp.logging)
     implementation(libs.networking.retrofit)
     implementation(libs.networking.retrofit.serialization)
     implementation(libs.utilities.kermit)

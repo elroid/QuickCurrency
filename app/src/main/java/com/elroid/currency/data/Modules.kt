@@ -1,7 +1,9 @@
 package com.elroid.currency.data
 
+import com.elroid.currency.BuildConfig
 import com.elroid.currency.data.deserializer.DateTimeSerializer
 import com.elroid.currency.data.service.CurrencyService
+import com.elroid.currency.data.service.addLoggingInterceptors
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.serializersModuleOf
@@ -22,14 +24,18 @@ val dataModule = module {
     }
 
     single<OkHttpClient> {
-        OkHttpClient.Builder().build()
+        OkHttpClient.Builder().apply {
+            if (BuildConfig.DEBUG) {
+                addLoggingInterceptors()
+            }
+        }.build()
     }
     single<Converter.Factory> {
         get<Json>().asConverterFactory("application/json".toMediaType())
     }
     single<CurrencyService> {
         Retrofit.Builder()
-            .baseUrl("https://api.currencyfreaks.com/v2.0")
+            .baseUrl("https://api.currencyfreaks.com/v2.0/")
             .client(get())
             .addConverterFactory(get<Converter.Factory>())
             .build()

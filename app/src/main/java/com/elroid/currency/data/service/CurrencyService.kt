@@ -6,11 +6,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CurrencyService {
-    @GET("/rates/latest")
+    @GET("rates/latest")
     suspend fun getLatestRates(
         @Query("symbols") currencySymbols: List<String>,
         @Query("apikey") key: String = KEY
-    ): List<RateResult>
+    ): RateResult
 
     companion object {
         private const val KEY = BuildConfig.CF_API_KEY

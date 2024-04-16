@@ -12,6 +12,7 @@ class CurrencyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Logger.setLogWriters(LogcatWriter())
+        Logger.setTag("QCU")
 
         startKoin {
             modules(dataModule, AnnotationModule().module)
