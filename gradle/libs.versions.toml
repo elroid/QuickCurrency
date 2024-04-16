@@ -15,6 +15,7 @@ koin-core-bom = "3.5.1"
 kotlin = "1.9.23"
 ksp = "1.9.23-1.0.19"
 lifecycleRuntimeKtx = "2.7.0"
+mockk = "1.13.7"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
 serialization-converter = "1.0.0"
@@ -52,6 +53,9 @@ networking-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.r
 networking-okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 networking-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 networking-retrofit-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "serialization-converter" }
+test-kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+test-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+test-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 utilities-kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 
 

@@ -1,8 +1,12 @@
 Currency Converter App Tasks
 
 [x] Set up app scaffold
+[x] Create API service for currency data
+[x] Create currency conversion functionality for main screen
 [] Create UI for main screen
-[] Create API service for currency data
 [] Create popup currency selection list
-[] Create currency conversion functionality for main screen
 [] Create data selector functionality
+[] Add offline support to currency API
+[] Add landscape layout
+[] Check dark mode is working
+
