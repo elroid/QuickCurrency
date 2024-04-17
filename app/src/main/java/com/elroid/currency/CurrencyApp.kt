@@ -6,6 +6,7 @@ import co.touchlab.kermit.Logger
 import com.elroid.currency.data.AnnotationModule
 import com.elroid.currency.data.dataModule
 import com.elroid.currency.domain.UseCaseModule
+import com.elroid.currency.ui.common.UiModule
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.module
 
@@ -16,7 +17,12 @@ class CurrencyApp : Application() {
         Logger.setTag("QCU")
 
         startKoin {
-            modules(dataModule, UseCaseModule().module, AnnotationModule().module)
+            modules(
+                dataModule,
+                AnnotationModule().module,
+                UiModule().module,
+                UseCaseModule().module,
+            )
         }
     }
 }
