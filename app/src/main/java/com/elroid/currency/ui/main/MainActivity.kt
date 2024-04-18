@@ -79,6 +79,13 @@ class MainActivity : ComponentActivity(), KoinComponent {
                             onClickDeleteCurrency = { viewModel.onDeleteCurrencyPressed(it) },
                             onCurrencyValueChange = { viewModel.onAmountChanged(it) },
                         )
+                        if (viewModel.showCurrencyList) {
+                            CurrencyListDialog(
+                                currencies = viewModel.currencyList,
+                                onItemClicked = { viewModel.onCurrencySelected(it) },
+                                onDismiss = { viewModel.showCurrencyList = false }
+                            )
+                        }
                     }
                 }
             }

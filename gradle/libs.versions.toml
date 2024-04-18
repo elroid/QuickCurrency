@@ -1,6 +1,7 @@
 [versions]
 activityCompose = "1.8.2"
 agp = "8.3.2"
+coil = "2.4.0"
 composeBom = "2024.03.00"
 composeCompiler = "1.5.11"
 coreKtx = "1.12.0"
@@ -56,6 +57,8 @@ networking-retrofit-serialization = { group = "com.jakewharton.retrofit", name =
 test-kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 test-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 test-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+ui-coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+ui-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 utilities-kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 
 

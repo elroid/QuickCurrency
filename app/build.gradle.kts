@@ -79,6 +79,10 @@ dependencies {
     implementation(libs.networking.okhttp.logging)
     implementation(libs.networking.retrofit)
     implementation(libs.networking.retrofit.serialization)
+
+    implementation(libs.ui.coil)
+    implementation(libs.ui.coil.compose)
+
     implementation(libs.utilities.kermit)
 
     testImplementation(libs.junit)

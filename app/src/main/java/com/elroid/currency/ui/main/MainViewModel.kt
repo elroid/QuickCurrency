@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import com.elroid.currency.R
 import com.elroid.currency.data.exception.isConnectivityError
+import com.elroid.currency.data.model.CurrencyDescriptor
 import com.elroid.currency.data.model.CurrencyValue
+import com.elroid.currency.data.repository.DataRepository
 import com.elroid.currency.domain.usecase.ConvertCurrency
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
@@ -25,7 +27,8 @@ enum class Error(@StringRes val errorStringId: Int) {
 
 @KoinViewModel
 class MainViewModel(
-    private val convertCurrency: ConvertCurrency
+    private val dataRepository: DataRepository,
+    private val convertCurrency: ConvertCurrency,
 ) : ViewModel() {
 
     var currentBaseValue: CurrencyValue by mutableStateOf(CurrencyValue(0, "GBP"))
@@ -35,31 +38,38 @@ class MainViewModel(
         private set
 
     var currentListState: ListState by mutableStateOf(LoadingState)
+        private set
+
+    var showCurrencyList: Boolean by mutableStateOf(false)
+
+    var currencyList: List<CurrencyDescriptor> by mutableStateOf(emptyList())
+        private set
+
 
     fun onAmountChanged(newAmount: String) {
         Logger.v { "onAmountChanged(newAmount:$newAmount)" }
-        currentListState = LoadingState
         currentError = null // reset error on new input
         viewModelScope.launch {
             try {
                 val newAmountValue: Number = newAmount.toFloatOrNull() ?: 0
                 val baseCurrency: String = currentBaseValue.currencyCode
-                val mapOfConvertedCurrencyValues = convertCurrency(CurrencyValue(newAmountValue, baseCurrency))
-                currentListState = ListDataState(mapOfConvertedCurrencyValues.values.sorted())
-                currentBaseValue = currentBaseValue.copy(amount = newAmountValue)
+                val newCurrencyValue = CurrencyValue(newAmountValue, baseCurrency)
+                updateConversions(newCurrencyValue)
+                currentBaseValue = newCurrencyValue
             } catch (e: Exception) {
-                Logger.w(e) { "Error converting value:$newAmount" }
-                val error: Error = when {
-                    e.isConnectivityError() -> Error.NO_CONNECTION
-                    else -> Error.UNKNOWN
-                }
-                currentError = error
+                Logger.w(e) { "Error converting user-entered value:$newAmount" }
+                handleError(e)
             }
         }
     }
 
+
     fun onBaseCurrencyPressed() {
         Logger.v { "onBaseCurrencyPressed()" }
+        showCurrencyList { code ->
+            currentBaseValue = CurrencyValue(currentBaseValue.amount, code)
+            updateConversionsFromBase()
+        }
     }
 
     fun onAddCurrencyPressed() {
@@ -68,5 +78,44 @@ class MainViewModel(
 
     fun onDeleteCurrencyPressed(currencyCode: String) {
         Logger.v { "onDeleteCurrencyPressed(currencyCode:$currencyCode)" }
+    }
+
+    fun onCurrencySelected(currencyCode: String) {
+        Logger.v { "onCurrencySelected(currencyCode:$currencyCode)" }
+        currencyAction(currencyCode)
+    }
+
+    private fun updateConversionsFromBase() {
+        viewModelScope.launch {
+            updateConversions(currentBaseValue)
+        }
+    }
+
+    private suspend fun updateConversions(currencyValue: CurrencyValue) {
+        try {
+            currentListState = LoadingState
+            val mapOfConvertedCurrencyValues = convertCurrency(currencyValue)
+            currentListState = ListDataState(mapOfConvertedCurrencyValues.values.sorted())
+        } catch (e: Exception) {
+            Logger.w(e) { "Error converting value:$currencyValue" }
+            handleError(e)
+        }
+    }
+
+    private fun handleError(e: Exception) {
+        val error: Error = when {
+            e.isConnectivityError() -> Error.NO_CONNECTION
+            else -> Error.UNKNOWN
+        }
+        currentError = error
+    }
+
+    private var currencyAction: (String) -> Unit = { Logger.i { "currency selected: $it" } }
+    private fun showCurrencyList(action: (String) -> Unit) {
+        currencyAction = action
+        viewModelScope.launch {
+            currencyList = dataRepository.getCurrencyList()
+            showCurrencyList = true
+        }
     }
 }
