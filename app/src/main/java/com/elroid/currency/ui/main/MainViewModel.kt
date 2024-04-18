@@ -19,7 +19,7 @@ import org.koin.android.annotation.KoinViewModel
 sealed class ListState
 data object InitState : ListState()
 data object LoadingState : ListState()
-data class ListDataState(val currencyValues: List<CurrencyValue>) : ListState()
+data class ListDataState(val currencyValues: List<CurrencyValue>, val timestamp:Long) : ListState()
 
 enum class Error(@StringRes val errorStringId: Int) {
     NO_CONNECTION(R.string.err_connection),
@@ -108,8 +108,8 @@ class MainViewModel(
     private suspend fun updateConversions(currencyValue: CurrencyValue) {
         try {
             currentListState = LoadingState
-            val mapOfConvertedCurrencyValues = convertCurrency(currencyValue)
-            currentListState = ListDataState(mapOfConvertedCurrencyValues.values.sorted())
+            val conversionResult = convertCurrency(currencyValue)
+            currentListState = ListDataState(conversionResult.valueMap.values.sorted(), conversionResult.timestamp)
         } catch (e: Exception) {
             Logger.w(e) { "Error converting value:$currencyValue" }
             handleError(e)

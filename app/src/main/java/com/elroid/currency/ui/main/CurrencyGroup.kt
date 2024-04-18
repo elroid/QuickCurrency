@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -25,12 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elroid.currency.R
 import com.elroid.currency.data.model.CurrencyValue
 import com.elroid.currency.ui.common.format
 import com.elroid.currency.ui.common.symbol
+import com.elroid.currency.ui.common.timeAgo
 import com.elroid.currency.ui.theme.QuickCurrencyTheme
 
 @Composable
@@ -90,8 +93,13 @@ fun CurrencyGroup(
                         modifier = modifier
                     )
                 }
+                FullWidthText(
+                    text = "Rates last updated: ${listState.timestamp.timeAgo()}",
+                    MaterialTheme.typography.bodySmall.fontSize
+                )
             }
         }
+
     }
 }
 
@@ -113,20 +121,20 @@ fun CurrencyEdit(
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
         label = { Text(stringResource(R.string.enter_amount)) },
-        textStyle = TextStyle.Default.copy(fontSize = 28.sp),
+        textStyle = MaterialTheme.typography.titleLarge,
         modifier = modifier
     )
 }
 
 @Composable
-fun FullWidthText(text: String) {
+fun FullWidthText(text: String, fontSize: TextUnit = MaterialTheme.typography.bodyMedium.fontSize) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        Text(text = text)
+        Text(text = text, fontSize = fontSize)
     }
 }
 
@@ -143,7 +151,11 @@ fun ConvertedCurrencyRow(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = currencyValue.format(), fontSize = 24.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            text = currencyValue.format(),
+            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
         OutlinedButton(onClick = { onClickDeleteCurrency(currencyValue.currencyCode) }) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.remove_currency))
         }
@@ -161,7 +173,7 @@ fun CurrencyGroupPreview() {
                     CurrencyValue(123, "EUR"),
                     CurrencyValue(345, "USD"),
                     CurrencyValue(567890, "JPY"),
-                )
+                ), 1713433409000L
             ), {}, {}, {}, modifier = Modifier.width(360.dp)
         )
     }

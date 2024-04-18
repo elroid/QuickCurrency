@@ -5,6 +5,12 @@ import com.elroid.currency.data.repository.DataRepository
 import org.koin.core.annotation.Factory
 import java.net.UnknownHostException
 
+
+data class ConversionResult(
+    val valueMap: Map<String, CurrencyValue>,
+    val timestamp: Long
+)
+
 @Factory
 class ConvertCurrency(
     private val dataRepository: DataRepository
@@ -17,7 +23,7 @@ class ConvertCurrency(
      * @throws UnknownHostException if there is a connection error
      */
     @Throws(IllegalArgumentException::class, UnknownHostException::class)
-    suspend operator fun invoke(value: CurrencyValue): Map<String, CurrencyValue> {
+    suspend operator fun invoke(value: CurrencyValue): ConversionResult {
         val rateResult = dataRepository.getLatestCurrencyRates()
         val fromRate: Double? = rateResult.ratesMap[value.currencyCode]?.toDouble()
         requireNotNull(fromRate) { "Unable to retrieve rate ${value.currencyCode} from rate results" }
@@ -31,6 +37,6 @@ class ConvertCurrency(
             val convertedAmount = amountInBaseCurrency * toRate
             mapOfCurrencyValues[selCurrency] = CurrencyValue(convertedAmount, selCurrency)
         }
-        return mapOfCurrencyValues
+        return ConversionResult(mapOfCurrencyValues, rateResult.date.toInstant().toEpochMilli())
     }
 }
