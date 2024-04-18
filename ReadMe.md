@@ -7,7 +7,7 @@ Currency Converter App Tasks
 * [x] Create UI for main screen
 * [x] Add API method to retrieve all currencies
 * [x] Create popup currency selection list
-* [ ] Make target currency list dynamic and stored locally
+* [x] Make base currency and target currency list dynamic and stored locally
 * [ ] Add offline support to currency API + add rates timestamp
 * [ ] Add error messaging
 

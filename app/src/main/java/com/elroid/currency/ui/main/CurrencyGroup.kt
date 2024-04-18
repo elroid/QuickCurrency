@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,6 +70,10 @@ fun CurrencyGroup(
             }
         }
         when (listState) {
+            InitState -> {
+                FullWidthText(text = "")
+            }
+
             LoadingState -> {
                 FullWidthText(text = stringResource(id = R.string.loading))
             }
@@ -108,6 +113,7 @@ fun CurrencyEdit(
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
         label = { Text(stringResource(R.string.enter_amount)) },
+        textStyle = TextStyle.Default.copy(fontSize = 28.sp),
         modifier = modifier
     )
 }

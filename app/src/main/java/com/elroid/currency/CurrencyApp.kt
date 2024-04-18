@@ -7,6 +7,7 @@ import com.elroid.currency.data.AnnotationModule
 import com.elroid.currency.data.dataModule
 import com.elroid.currency.domain.UseCaseModule
 import com.elroid.currency.ui.common.UiModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.module
 
@@ -17,6 +18,7 @@ class CurrencyApp : Application() {
         Logger.setTag("QCU")
 
         startKoin {
+            androidContext(this@CurrencyApp)
             modules(
                 dataModule,
                 AnnotationModule().module,

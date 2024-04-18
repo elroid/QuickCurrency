@@ -1,10 +1,20 @@
 package com.elroid.currency.data
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.elroid.currency.BuildConfig
 import com.elroid.currency.data.deserializer.DateTimeSerializer
 import com.elroid.currency.data.service.CurrencyService
 import com.elroid.currency.data.service.addLoggingInterceptors
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.serializersModuleOf
 import okhttp3.MediaType.Companion.toMediaType
@@ -40,6 +50,17 @@ val dataModule = module {
             .addConverterFactory(get<Converter.Factory>())
             .build()
             .create(CurrencyService::class.java)
+    }
+    single<DataStore<Preferences>> {
+        val ctx = get<Context>()
+        val prefsName = "user_preferences"
+        PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() }
+            ),
+            produceFile = { ctx.preferencesDataStoreFile(prefsName) },
+            scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
+        )
     }
 }
 

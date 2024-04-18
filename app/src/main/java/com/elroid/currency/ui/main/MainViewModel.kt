@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
 sealed class ListState
+data object InitState : ListState()
 data object LoadingState : ListState()
 data class ListDataState(val currencyValues: List<CurrencyValue>) : ListState()
 
@@ -31,13 +32,13 @@ class MainViewModel(
     private val convertCurrency: ConvertCurrency,
 ) : ViewModel() {
 
-    var currentBaseValue: CurrencyValue by mutableStateOf(CurrencyValue(0, "GBP"))
+    var currentBaseValue: CurrencyValue by mutableStateOf(CurrencyValue(0, dataRepository.getBaseCurrency()))
         private set
 
     var currentError: Error? by mutableStateOf(null)
         private set
 
-    var currentListState: ListState by mutableStateOf(LoadingState)
+    var currentListState: ListState by mutableStateOf(InitState)
         private set
 
     var showCurrencyList: Boolean by mutableStateOf(false)
@@ -67,17 +68,30 @@ class MainViewModel(
     fun onBaseCurrencyPressed() {
         Logger.v { "onBaseCurrencyPressed()" }
         showCurrencyList { code ->
-            currentBaseValue = CurrencyValue(currentBaseValue.amount, code)
-            updateConversionsFromBase()
+            viewModelScope.launch {
+                currentBaseValue = CurrencyValue(currentBaseValue.amount, code)
+                dataRepository.setBaseCurrency(code)
+                updateConversions(currentBaseValue)
+            }
         }
     }
 
     fun onAddCurrencyPressed() {
         Logger.v { "onAddCurrencyPressed()" }
+        showCurrencyList { code ->
+            viewModelScope.launch {
+                dataRepository.addSelectedCurrency(code)
+                updateConversions(currentBaseValue)
+            }
+        }
     }
 
     fun onDeleteCurrencyPressed(currencyCode: String) {
         Logger.v { "onDeleteCurrencyPressed(currencyCode:$currencyCode)" }
+        viewModelScope.launch {
+            dataRepository.removeSelectedCurrency(currencyCode)
+            updateConversions(currentBaseValue)
+        }
     }
 
     fun onCurrencySelected(currencyCode: String) {
