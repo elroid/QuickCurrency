@@ -1,6 +1,8 @@
 package com.elroid.currency.data.repository
 
-import com.elroid.currency.data.model.RateResult
+import com.elroid.currency.data.mappers.toList
+import com.elroid.currency.data.model.CurrencyDescriptor
+import com.elroid.currency.data.model.RatesResponse
 import com.elroid.currency.data.service.CurrencyService
 import org.koin.core.annotation.Factory
 
@@ -8,9 +10,9 @@ import org.koin.core.annotation.Factory
 class DataRepository(
     private val currencyService: CurrencyService
 ) {
-    suspend fun getLatestCurrencyRates(): RateResult {
-        return currencyService.getLatestRates(getSelectedCurrencies())
-    }
+    suspend fun getCurrencyList(): List<CurrencyDescriptor> = currencyService.getCurrencyList().toList()
 
-    fun getSelectedCurrencies() = listOf("GBP", "USD", "EUR", "JPY", "COP")
+    suspend fun getLatestCurrencyRates(): RatesResponse = currencyService.getLatestRates(getSelectedCurrencies())
+
+    fun getSelectedCurrencies() = listOf("GBP", "USD", "EUR", "JPY", "AUD")
 }

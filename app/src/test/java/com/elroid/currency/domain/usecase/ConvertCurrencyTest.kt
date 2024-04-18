@@ -2,7 +2,7 @@ package com.elroid.currency.domain.usecase
 
 import com.elroid.currency.data.dataModule
 import com.elroid.currency.data.model.CurrencyValue
-import com.elroid.currency.data.model.RateResult
+import com.elroid.currency.data.model.RatesResponse
 import com.elroid.currency.data.repository.DataRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -21,7 +21,7 @@ class ConvertCurrencyTest : KoinTest {
     val koinTestRule = KoinTestRule.create { modules(dataModule) }
     private val json: Json by inject()
 
-    private val rateResult: RateResult by lazy {
+    private val ratesResponse: RatesResponse by lazy {
         val jsonString = """
         {
           "date":"2024-04-16 00:00:00+00",
@@ -35,12 +35,12 @@ class ConvertCurrencyTest : KoinTest {
           }
         }
         """
-        json.decodeFromString<RateResult>(jsonString)
+        json.decodeFromString<RatesResponse>(jsonString)
     }
 
     private fun createConverter(selectedCurrencies: List<String>): ConvertCurrency {
         val mockDataRepository = mockk<DataRepository>()
-        coEvery { mockDataRepository.getLatestCurrencyRates() } returns rateResult
+        coEvery { mockDataRepository.getLatestCurrencyRates() } returns ratesResponse
         coEvery { mockDataRepository.getSelectedCurrencies() } returns selectedCurrencies
         return ConvertCurrency(mockDataRepository)
     }

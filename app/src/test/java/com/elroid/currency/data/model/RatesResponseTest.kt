@@ -11,7 +11,7 @@ import org.koin.test.inject
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
-class RateResultTest : KoinTest {
+class RatesResponseTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create { modules(dataModule) }
@@ -32,7 +32,7 @@ class RateResultTest : KoinTest {
 
     @Test
     fun deserialize_givenResultWithZeroTime_returnsExpected() {
-        val expected = RateResult(
+        val expected = RatesResponse(
             date = OffsetDateTime.of(2024, 4, 16, 0, 0, 0, 0, ZoneOffset.UTC),
             base = "USD",
             ratesMap = mapOf(
@@ -42,7 +42,7 @@ class RateResultTest : KoinTest {
                 "USD" to "1.0",
             )
         )
-        val actual = json.decodeFromString<RateResult>(zeroTimeTestJson)
+        val actual = json.decodeFromString<RatesResponse>(zeroTimeTestJson)
         assertEquals(expected, actual)
     }
 }

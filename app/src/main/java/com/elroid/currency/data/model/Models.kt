@@ -8,3 +8,10 @@ data class CurrencyValue(
         return currencyCode.compareTo(other.currencyCode)
     }
 }
+
+data class CurrencyDescriptor(
+    val currencyCode: String,
+    val currencyName: String,
+    val countryName: String,
+    val iconUrl: String,
+)
