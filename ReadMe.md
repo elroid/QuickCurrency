@@ -1,6 +1,13 @@
-Currency Converter App Tasks
+# Quick Currency
 
-## Basic App
+A simple currency conversion app that uses the [Currency Freaks API](https://currencyfreaks.com/). Offers a quick way to 
+convert between various currencies at once. Offline capable.
+
+<img src="qcu-screenshot.png" width="270" height="579" alt="Screenshot">
+
+## Tasks
+
+### Basic App
 * [x] Set up app scaffold
 * [x] Create API service for currency data
 * [x] Create currency conversion functionality for main screen
@@ -11,15 +18,15 @@ Currency Converter App Tasks
 * [x] Add offline support to currency API + add rates timestamp
 * [x] Add error messaging
 
-## Improvements
+### Improvements
 * [ ] Improve currency list appearance/performance and add image caching
 * [ ] Add recently used currencies to top of currency list
 * [ ] Add keyboard filtering to currency selection list
-* [ ] Add landscape layout
+* [ ] Add specific landscape layout
 * [ ] Add option to toggle crypto-currency inclusion
 * [ ] Add tests for use cases and repositories
 
-## Release
+### Release
 * [ ] Create app icon
 * [ ] Create debug build type
 * [ ] Add proguard rules
