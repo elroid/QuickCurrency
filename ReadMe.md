@@ -9,7 +9,7 @@ Currency Converter App Tasks
 * [x] Create popup currency selection list
 * [x] Make base currency and target currency list dynamic and stored locally
 * [x] Add offline support to currency API + add rates timestamp
-* [ ] Add error messaging
+* [x] Add error messaging
 
 ## Improvements
 * [ ] Improve currency list appearance/performance and add image caching

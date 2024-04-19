@@ -41,79 +41,81 @@ class MainViewModel(
     var currentListState: ListState by mutableStateOf(InitState)
         private set
 
-    var showCurrencyList: Boolean by mutableStateOf(false)
-
     var currencyList: List<Currency> by mutableStateOf(emptyList())
         private set
 
+    var showCurrencyList: Boolean by mutableStateOf(false)
 
     fun onAmountChanged(newAmount: String) {
-        Logger.v { "onAmountChanged(newAmount:$newAmount)" }
-        currentError = null // reset error on new input
-        viewModelScope.launch {
-            try {
-                val newAmountValue: Number = newAmount.toFloatOrNull() ?: 0
-                val baseCurrency: String = currentBaseValue.currencyCode
-                val newCurrencyValue = CurrencyValue(newAmountValue, baseCurrency)
-                updateConversions(newCurrencyValue)
-                currentBaseValue = newCurrencyValue
-            } catch (e: Exception) {
-                Logger.w(e) { "Error converting user-entered value:$newAmount" }
-                handleError(e)
-            }
+        runAction("amountChanged") {
+            val newAmountValue: Number = newAmount.toFloatOrNull() ?: 0
+            val baseCurrency: String = currentBaseValue.currencyCode
+            val newCurrencyValue = CurrencyValue(newAmountValue, baseCurrency)
+            updateConversions(newCurrencyValue)
+            currentBaseValue = newCurrencyValue
         }
     }
 
     fun onBaseCurrencyPressed() {
-        Logger.v { "onBaseCurrencyPressed()" }
         showCurrencyList { code ->
-            viewModelScope.launch {
-                currentBaseValue = CurrencyValue(currentBaseValue.amount, code)
-                dataRepository.setBaseCurrency(code)
-                updateConversions(currentBaseValue)
-            }
+            currentBaseValue = CurrencyValue(currentBaseValue.amount, code)
+            dataRepository.setBaseCurrency(code)
+            updateConversions(currentBaseValue)
         }
     }
 
     fun onAddCurrencyPressed() {
-        Logger.v { "onAddCurrencyPressed()" }
         showCurrencyList { code ->
-            viewModelScope.launch {
-                dataRepository.addSelectedCurrency(code)
-                updateConversions(currentBaseValue)
-            }
+            dataRepository.addSelectedCurrency(code)
+            updateConversions(currentBaseValue)
         }
     }
 
     fun onDeleteCurrencyPressed(currencyCode: String) {
-        Logger.v { "onDeleteCurrencyPressed(currencyCode:$currencyCode)" }
-        viewModelScope.launch {
+        runAction("deleteCurrency") {
             dataRepository.removeSelectedCurrency(currencyCode)
             updateConversions(currentBaseValue)
         }
     }
 
     fun onCurrencySelected(currencyCode: String) {
-        Logger.v { "onCurrencySelected(currencyCode:$currencyCode)" }
-        currencyAction(currencyCode)
-    }
-
-    private fun updateConversionsFromBase() {
-        viewModelScope.launch {
-            updateConversions(currentBaseValue)
+        runAction("currencySelected") {
+            currencyAction(currencyCode)
         }
     }
 
     private suspend fun updateConversions(currencyValue: CurrencyValue) {
-        try {
-            currentListState = LoadingState
-            val conversionResult = convertCurrency(currencyValue)
-            currentListState = ListDataState(
-                conversionResult.valueMap.values.sortedBy { it.currencyCode }, conversionResult.timestamp
-            )
-        } catch (e: Exception) {
-            Logger.w(e) { "Error converting value:$currencyValue" }
-            handleError(e)
+        currentListState = LoadingState
+        val conversionResult = convertCurrency(currencyValue)
+        currentListState = ListDataState(
+            conversionResult.valueMap.values.sortedBy { it.currencyCode }, conversionResult.timestamp
+        )
+    }
+
+    private var currencyAction: suspend (String) -> Unit = { }
+    private fun showCurrencyList(action: suspend (String) -> Unit) {
+        currencyAction = action
+        runAction("showCurrencyList") {
+            currencyList = dataRepository.getCurrencyList()
+            showCurrencyList = true
+        }
+    }
+
+    /**
+     * Convenience method to run actions with vm scope and error handling
+     *
+     * @param method name of the calling method, to assist with debugging
+     * @param action suspend method to run on vm scope
+     */
+    private fun runAction(method: String, action: suspend () -> Unit) {
+        currentError = null
+        viewModelScope.launch {
+            try {
+                action()
+            } catch (e: Exception) {
+                Logger.w(e) { "Error in $method" }
+                handleError(e)
+            }
         }
     }
 
@@ -123,14 +125,5 @@ class MainViewModel(
             else -> Error.UNKNOWN
         }
         currentError = error
-    }
-
-    private var currencyAction: (String) -> Unit = { Logger.i { "currency selected: $it" } }
-    private fun showCurrencyList(action: (String) -> Unit) {
-        currencyAction = action
-        viewModelScope.launch {
-            currencyList = dataRepository.getCurrencyList()
-            showCurrencyList = true
-        }
     }
 }

@@ -13,14 +13,18 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import co.touchlab.kermit.Logger
 import com.elroid.currency.R
 import com.elroid.currency.ui.theme.QuickCurrencyTheme
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -85,6 +89,17 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 onItemClicked = { viewModel.onCurrencySelected(it) },
                                 onDismiss = { viewModel.showCurrencyList = false }
                             )
+                        }
+                    }
+
+                    // Error handling
+                    val scope = rememberCoroutineScope()
+                    val errorMessage:String? = viewModel.currentError?.let {
+                        stringResource(id = it.errorStringId)
+                    }
+                    LaunchedEffect(errorMessage) {
+                        errorMessage?.let {
+                            scope.launch { snackBarHostState.showSnackbar(it) }
                         }
                     }
                 }
