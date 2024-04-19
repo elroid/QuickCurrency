@@ -7,8 +7,11 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.room.Room
 import com.elroid.currency.BuildConfig
 import com.elroid.currency.data.deserializer.DateTimeSerializer
+import com.elroid.currency.data.persistence.AppDatabase
+import com.elroid.currency.data.persistence.RatesDao
 import com.elroid.currency.data.service.CurrencyService
 import com.elroid.currency.data.service.addLoggingInterceptors
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -62,6 +65,12 @@ val dataModule = module {
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
         )
     }
+    single<AppDatabase> {
+        Room.databaseBuilder(get(), AppDatabase::class.java, "quickCurrency")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+    single<RatesDao> { get<AppDatabase>().ratesDao() }
 }
 
 @Module

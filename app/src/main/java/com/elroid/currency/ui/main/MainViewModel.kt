@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import com.elroid.currency.R
 import com.elroid.currency.data.exception.isConnectivityError
-import com.elroid.currency.data.model.CurrencyDescriptor
+import com.elroid.currency.data.model.Currency
 import com.elroid.currency.data.model.CurrencyValue
 import com.elroid.currency.data.repository.DataRepository
 import com.elroid.currency.domain.usecase.ConvertCurrency
@@ -19,7 +19,7 @@ import org.koin.android.annotation.KoinViewModel
 sealed class ListState
 data object InitState : ListState()
 data object LoadingState : ListState()
-data class ListDataState(val currencyValues: List<CurrencyValue>, val timestamp:Long) : ListState()
+data class ListDataState(val currencyValues: List<CurrencyValue>, val timestamp: Long) : ListState()
 
 enum class Error(@StringRes val errorStringId: Int) {
     NO_CONNECTION(R.string.err_connection),
@@ -43,7 +43,7 @@ class MainViewModel(
 
     var showCurrencyList: Boolean by mutableStateOf(false)
 
-    var currencyList: List<CurrencyDescriptor> by mutableStateOf(emptyList())
+    var currencyList: List<Currency> by mutableStateOf(emptyList())
         private set
 
 
@@ -63,7 +63,6 @@ class MainViewModel(
             }
         }
     }
-
 
     fun onBaseCurrencyPressed() {
         Logger.v { "onBaseCurrencyPressed()" }
@@ -109,7 +108,9 @@ class MainViewModel(
         try {
             currentListState = LoadingState
             val conversionResult = convertCurrency(currencyValue)
-            currentListState = ListDataState(conversionResult.valueMap.values.sorted(), conversionResult.timestamp)
+            currentListState = ListDataState(
+                conversionResult.valueMap.values.sortedBy { it.currencyCode }, conversionResult.timestamp
+            )
         } catch (e: Exception) {
             Logger.w(e) { "Error converting value:$currencyValue" }
             handleError(e)

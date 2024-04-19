@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import com.elroid.currency.data.common.nowTs
 
 fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     onUiThread { Toast.makeText(this, message, length).show() }
@@ -24,10 +25,8 @@ const val MS_IN_MINUTE = 60 * MS_IN_SECOND
 const val MS_IN_HOUR = 60 * MS_IN_MINUTE
 const val MS_IN_DAY = 24 * MS_IN_HOUR
 
-fun now(): Long = System.currentTimeMillis()
-
 //Todo: i18n of timeAgo strings
-fun Long.timeAgo(now: Long = now()): String {
+fun Long.timeAgo(now: Long = nowTs()): String {
     if (this > now) return "in the future!" // shouldn't happen really...
     val diff = now - this
     when {

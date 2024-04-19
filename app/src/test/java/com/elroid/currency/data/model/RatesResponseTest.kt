@@ -35,7 +35,7 @@ class RatesResponseTest : KoinTest {
         val expected = RatesResponse(
             date = OffsetDateTime.of(2024, 4, 16, 0, 0, 0, 0, ZoneOffset.UTC),
             base = "USD",
-            ratesMap = mapOf(
+            rates = mapOf(
                 "EUR" to "0.9411246716283831",
                 "GBP" to "0.803440826169263",
                 "COP" to "3890.066705818813",

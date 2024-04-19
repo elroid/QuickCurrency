@@ -1,7 +1,8 @@
 package com.elroid.currency.data.model
 
+import com.elroid.currency.data.common.nowTs
 import com.elroid.currency.data.dataModule
-import com.elroid.currency.data.mappers.toList
+import com.elroid.currency.data.mapper.toList
 import junit.framework.TestCase
 import kotlinx.serialization.json.Json
 import org.junit.Rule
@@ -54,12 +55,20 @@ class CurrencyListResponseTest : KoinTest {
 
     @Test
     fun getCurrencyMap_givenNormalResponseWithNullFields_returnsFilteredList() {
-        val expected = listOf(
-            CurrencyDescriptor("EUR", "Euro", "Andorra", "https://currencyfreaks.com/photos/flags/eur.png"),
-            CurrencyDescriptor("USD", "US Dollar", "American Samoa", "https://currencyfreaks.com/photos/flags/usd.png"),
+        val now: Long = nowTs()
+        val expected = CurrencyList(
+            listOf(
+                Currency("EUR", "Euro", "Andorra", "https://currencyfreaks.com/photos/flags/eur.png"),
+                Currency(
+                    "USD",
+                    "US Dollar",
+                    "American Samoa",
+                    "https://currencyfreaks.com/photos/flags/usd.png"
+                ),
+            ), timestamp = now
         )
 
-        val actual = json.decodeFromString<CurrencyListResponse>(jsonResponse).toList()
+        val actual = json.decodeFromString<CurrencyListResponse>(jsonResponse).toList(now)
         TestCase.assertEquals(expected, actual)
     }
 }

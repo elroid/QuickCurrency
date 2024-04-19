@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
-import com.elroid.currency.data.model.CurrencyDescriptor
+import com.elroid.currency.data.model.Currency
 import com.elroid.currency.ui.theme.QuickCurrencyTheme
 
 @Composable
 fun CurrencyListDialog(
-    currencies: List<CurrencyDescriptor>,
+    currencies: List<Currency>,
     onItemClicked: (String) -> Unit,
     onDismiss: () -> Unit = {},
 ) {
@@ -55,7 +55,7 @@ fun CurrencyListDialog(
 
 @Composable
 fun CurrencyRow(
-    currency: CurrencyDescriptor,
+    currency: Currency,
     onItemClicked: (String) -> Unit,
 ) {
     TextButton(
@@ -87,7 +87,7 @@ fun CurrencyRow(
 fun CurrencyRowPreview() {
     QuickCurrencyTheme {
         CurrencyRow(
-            CurrencyDescriptor(
+            Currency(
                 "GBP",
                 "Pound Sterling",
                 "United Kingdom",

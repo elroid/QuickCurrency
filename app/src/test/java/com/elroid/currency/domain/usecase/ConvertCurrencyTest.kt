@@ -1,7 +1,9 @@
 package com.elroid.currency.domain.usecase
 
 import com.elroid.currency.data.dataModule
+import com.elroid.currency.data.mapper.toRates
 import com.elroid.currency.data.model.CurrencyValue
+import com.elroid.currency.data.model.Rates
 import com.elroid.currency.data.model.RatesResponse
 import com.elroid.currency.data.repository.DataRepository
 import io.mockk.coEvery
@@ -21,7 +23,7 @@ class ConvertCurrencyTest : KoinTest {
     val koinTestRule = KoinTestRule.create { modules(dataModule) }
     private val json: Json by inject()
 
-    private val ratesResponse: RatesResponse by lazy {
+    private val rates: Rates by lazy {
         val jsonString = """
         {
           "date":"2024-04-16 00:00:00+00",
@@ -35,12 +37,12 @@ class ConvertCurrencyTest : KoinTest {
           }
         }
         """
-        json.decodeFromString<RatesResponse>(jsonString)
+        json.decodeFromString<RatesResponse>(jsonString).toRates()
     }
 
     private fun createConverter(selectedCurrencies: List<String>): ConvertCurrency {
         val mockDataRepository = mockk<DataRepository>()
-        coEvery { mockDataRepository.getLatestCurrencyRates() } returns ratesResponse
+        coEvery { mockDataRepository.getLatestCurrencyRates() } returns rates
         coEvery { mockDataRepository.getSelectedCurrencies() } returns selectedCurrencies
         return ConvertCurrency(mockDataRepository)
     }
@@ -49,7 +51,10 @@ class ConvertCurrencyTest : KoinTest {
     fun invoke_givenAmountInBaseCurrency_returnsExpected() = runTest {
         val converter = createConverter(listOf("EUR"))
         val fromValue = CurrencyValue(1234.56, "USD")
-        val expectedValue = mapOf("EUR" to CurrencyValue(1161.8748746055367, "EUR"))
+        val expectedValue = ConversionResult(
+            mapOf("EUR" to CurrencyValue(1161.8748746055367, "EUR")),
+            timestamp = 1713225600000L
+        )
         val actual = converter(fromValue)
         assertEquals(expectedValue, actual)
     }
@@ -58,7 +63,10 @@ class ConvertCurrencyTest : KoinTest {
     fun invoke_givenAmountInNonBaseCurrency_returnsExpected() = runTest {
         val converter = createConverter(listOf("EUR"))
         val fromValue = CurrencyValue(1234.56, "GBP")
-        val expectedValue = mapOf("EUR" to CurrencyValue(1446.1237676273638, "EUR"))
+        val expectedValue = ConversionResult(
+            mapOf("EUR" to CurrencyValue(1446.1237676273638, "EUR")),
+            1713225600000L
+        )
         val actual = converter(fromValue)
         assertEquals(expectedValue, actual)
     }

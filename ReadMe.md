@@ -8,7 +8,7 @@ Currency Converter App Tasks
 * [x] Add API method to retrieve all currencies
 * [x] Create popup currency selection list
 * [x] Make base currency and target currency list dynamic and stored locally
-* [ ] Add offline support to currency API + add rates timestamp
+* [x] Add offline support to currency API + add rates timestamp
 * [ ] Add error messaging
 
 ## Improvements
@@ -16,4 +16,11 @@ Currency Converter App Tasks
 * [ ] Add recently used currencies to top of currency list
 * [ ] Add keyboard filtering to currency selection list
 * [ ] Add landscape layout
-* [ ] Check dark mode is working
+* [ ] Add option to toggle crypto-currency inclusion
+* [ ] Add tests for use cases and repositories
+
+## Release
+* [ ] Create app icon
+* [ ] Create debug build type
+* [ ] Add proguard rules
+* [ ] Set up handling of api key Github secret

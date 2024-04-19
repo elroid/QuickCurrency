@@ -20,8 +20,10 @@ lifecycleRuntimeKtx = "2.7.0"
 mockk = "1.13.7"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
+room = "2.6.1"
 serialization-converter = "1.0.0"
 serialization-json = "1.5.1"
+store5 = "5.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,9 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "composeCompiler" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -52,6 +57,7 @@ koin-test = { group = "io.insert-koin", name = "koin-test" }
 koin-test-junit = { group = "io.insert-koin", name = "koin-test-junit4" }
 kotlinx-coroutinesCore = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization-json" }
+persistence-store5 = { group = "org.mobilenativefoundation.store", name = "store5", version.ref = "store5" }
 networking-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 networking-okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 networking-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }

@@ -24,19 +24,19 @@ class ConvertCurrency(
      */
     @Throws(IllegalArgumentException::class, UnknownHostException::class)
     suspend operator fun invoke(value: CurrencyValue): ConversionResult {
-        val rateResult = dataRepository.getLatestCurrencyRates()
-        val fromRate: Double? = rateResult.ratesMap[value.currencyCode]?.toDouble()
+        val rates = dataRepository.getLatestCurrencyRates()
+        val fromRate: Double? = rates.ratesMap[value.currencyCode]?.toDouble()
         requireNotNull(fromRate) { "Unable to retrieve rate ${value.currencyCode} from rate results" }
         val amountInBaseCurrency: Double = value.amount.toDouble() / fromRate
 
         val mapOfCurrencyValues = mutableMapOf<String, CurrencyValue>()
         val selectedCurrencies = dataRepository.getSelectedCurrencies()
         selectedCurrencies.filter { it != value.currencyCode }.forEach { selCurrency ->
-            val toRate: Double? = rateResult.ratesMap[selCurrency]?.toDouble()
+            val toRate: Double? = rates.ratesMap[selCurrency]?.toDouble()
             requireNotNull(toRate) { "Unable to retrieve rate $selCurrency from rate results" }
             val convertedAmount = amountInBaseCurrency * toRate
             mapOfCurrencyValues[selCurrency] = CurrencyValue(convertedAmount, selCurrency)
         }
-        return ConversionResult(mapOfCurrencyValues, rateResult.date.toInstant().toEpochMilli())
+        return ConversionResult(mapOfCurrencyValues, rates.timestamp)
     }
 }

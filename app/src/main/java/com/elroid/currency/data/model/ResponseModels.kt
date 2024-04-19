@@ -6,28 +6,25 @@ import kotlinx.serialization.Serializable
 import java.time.OffsetDateTime
 
 @Serializable
+data class CurrencyDescriptorResponse(
+    val currencyCode: String,
+    val currencyName: String?,
+    val countryCode: String?,
+    val countryName: String?,
+    val icon: String,
+)
+
+@Serializable
+data class CurrencyListResponse(
+    val supportedCurrenciesMap: Map<String, CurrencyDescriptorResponse>
+)
+
+@Serializable
 data class RatesResponse(
     @Serializable(with = DateTimeSerializer::class)
     val date: OffsetDateTime,
 
     val base: String,
 
-    @SerialName("rates")
-    val ratesMap: Map<String, String>
-)
-
-@Serializable
-data class CurrencyListResponse(
-    @SerialName("supportedCurrenciesMap")
-    val currencyMap: Map<String, CurrencyDescriptorResponse>
-)
-
-@Serializable
-data class CurrencyDescriptorResponse(
-    val currencyCode: String,
-    val currencyName: String?,
-    val countryCode: String?,
-    val countryName: String?,
-    @SerialName("icon")
-    val iconUrl: String,
+    val rates: Map<String, String>
 )
