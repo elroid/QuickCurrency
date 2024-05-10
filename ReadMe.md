@@ -17,6 +17,7 @@ convert between various currencies at once. Offline capable.
 * [x] Make base currency and target currency list dynamic and stored locally
 * [x] Add offline support to currency API + add rates timestamp
 * [x] Add error messaging
+* [ ] Set up module structure
 
 ### Improvements
 * [ ] Improve currency list appearance/performance and add image caching

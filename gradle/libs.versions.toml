@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.8.2"
-agp = "8.3.2"
+agp = "8.4.0"
 coil = "2.4.0"
 composeBom = "2024.03.00"
 composeCompiler = "1.5.11"
@@ -32,7 +32,6 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "composeCompiler" }
