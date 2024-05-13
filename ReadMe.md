@@ -3,7 +3,11 @@
 A simple currency conversion app that uses the [Currency Freaks API](https://currencyfreaks.com/). Offers a quick way to 
 convert between various currencies at once. Offline capable.
 
-<img src="qcu-screenshot.png" width="270" height="579" alt="Screenshot">
+<img src="docs/qcu-screenshot.png" width="270" height="579" alt="Screenshot">
+
+## Modularisation Diagram
+
+<img src="docs/module-diagram.png" width="1000" height="750" alt="Modularisation diagram">
 
 ## Tasks
 
