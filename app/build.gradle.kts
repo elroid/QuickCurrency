@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.elroid.currency"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.elroid.currency"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 

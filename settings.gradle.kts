@@ -21,4 +21,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "Quick Currency"
 include(":app")
- 
+include(":data:model")
+include(":data:repository")
+include(":data:remote")
+include(":data:local")
+include(":core:model")
+include(":core:domain")
+include(":core:common")
+include(":feature:common")
+include(":feature:converter")

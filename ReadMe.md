@@ -4,7 +4,7 @@ A simple currency conversion app that uses the [Currency Freaks API](https://cur
 convert between various currencies at once. Offline capable.
 
 <img src="docs/qcu-screenshot.png" width="270" height="579" alt="Screenshot">
-<img src="docs/module-diagram.pn" width="850" height="500" alt="Architecture diagram">
+<img src="docs/module-diagram.png" width="890" height="625" alt="Architecture diagram">
 
 ## Tasks
 
