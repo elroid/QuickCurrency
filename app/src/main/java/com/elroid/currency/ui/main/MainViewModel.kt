@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import com.elroid.currency.R
-import com.elroid.currency.data.exception.isConnectivityError
-import com.elroid.currency.data.model.Currency
-import com.elroid.currency.data.model.CurrencyValue
-import com.elroid.currency.data.repository.DataRepository
-import com.elroid.currency.domain.usecase.ConvertCurrency
+import com.elroid.currency.core.common.exception.isConnectivityError
+import com.elroid.currency.core.domain.usecase.ConvertCurrency
+import com.elroid.currency.core.model.Currency
+import com.elroid.currency.core.model.CurrencyValue
+import com.elroid.currency.core.model.repository.CurrencyRepository
+import com.elroid.currency.core.model.repository.PrefsRepository
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
@@ -28,11 +29,12 @@ enum class Error(@StringRes val errorStringId: Int) {
 
 @KoinViewModel
 class MainViewModel(
-    private val dataRepository: DataRepository,
+    private val prefs: PrefsRepository,
+    private val currencyRepository: CurrencyRepository,
     private val convertCurrency: ConvertCurrency,
 ) : ViewModel() {
 
-    var currentBaseValue: CurrencyValue by mutableStateOf(CurrencyValue(0, dataRepository.getBaseCurrency()))
+    var currentBaseValue: CurrencyValue by mutableStateOf(CurrencyValue(0, prefs.getBaseCurrency()))
         private set
 
     var currentError: Error? by mutableStateOf(null)
@@ -59,21 +61,21 @@ class MainViewModel(
     fun onBaseCurrencyPressed() {
         showCurrencyList { code ->
             currentBaseValue = CurrencyValue(currentBaseValue.amount, code)
-            dataRepository.setBaseCurrency(code)
+            prefs.setBaseCurrency(code)
             updateConversions(currentBaseValue)
         }
     }
 
     fun onAddCurrencyPressed() {
         showCurrencyList { code ->
-            dataRepository.addSelectedCurrency(code)
+            prefs.addSelectedCurrency(code)
             updateConversions(currentBaseValue)
         }
     }
 
     fun onDeleteCurrencyPressed(currencyCode: String) {
         runAction("deleteCurrency") {
-            dataRepository.removeSelectedCurrency(currencyCode)
+            prefs.removeSelectedCurrency(currencyCode)
             updateConversions(currentBaseValue)
         }
     }
@@ -96,7 +98,7 @@ class MainViewModel(
     private fun showCurrencyList(action: suspend (String) -> Unit) {
         currencyAction = action
         runAction("showCurrencyList") {
-            currencyList = dataRepository.getCurrencyList()
+            currencyList = currencyRepository.getCurrencyList()
             showCurrencyList = true
         }
     }

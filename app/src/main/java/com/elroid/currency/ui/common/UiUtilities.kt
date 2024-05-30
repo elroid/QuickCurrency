@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import com.elroid.currency.data.common.nowTs
+import com.elroid.currency.core.common.util.nowTs
 
 fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     onUiThread { Toast.makeText(this, message, length).show() }

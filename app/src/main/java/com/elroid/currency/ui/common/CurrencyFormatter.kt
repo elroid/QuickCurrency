@@ -2,7 +2,7 @@ package com.elroid.currency.ui.common
 
 import android.icu.text.NumberFormat
 import android.icu.util.Currency
-import com.elroid.currency.data.model.CurrencyValue
+import com.elroid.currency.core.model.CurrencyValue
 import java.util.*
 
 fun CurrencyValue.format(): String {

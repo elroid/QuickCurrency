@@ -6,21 +6,9 @@ plugins {
 android {
     namespace = "com.elroid.currency.feature.converter"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
-
-//    todo: remove before merge
-//    defaultConfig {
-//        minSdk = 24
-//
-//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles("consumer-rules.pro")
-//    }
-//
-//    buildTypes {
-//        release {
-//            isMinifyEnabled = false
-//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-//        }
-//    }
+    defaultConfig {
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+    }
     compileOptions {
         val javaVersion = JavaVersion.toVersion(libs.versions.java.get().toInt())
         sourceCompatibility = javaVersion
@@ -32,6 +20,9 @@ android {
 }
 
 dependencies {
+
+    implementation(projects.core.domain)
+    implementation(projects.feature.common)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

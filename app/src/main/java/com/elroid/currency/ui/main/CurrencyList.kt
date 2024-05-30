@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
-import com.elroid.currency.data.model.Currency
+import com.elroid.currency.core.model.Currency
+import com.elroid.currency.data.local.LocalCurrency
 import com.elroid.currency.ui.theme.QuickCurrencyTheme
 
 @Composable
@@ -87,7 +88,7 @@ fun CurrencyRow(
 fun CurrencyRowPreview() {
     QuickCurrencyTheme {
         CurrencyRow(
-            Currency(
+            LocalCurrency(
                 "GBP",
                 "Pound Sterling",
                 "United Kingdom",
