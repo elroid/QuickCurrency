@@ -24,6 +24,7 @@ convert between various currencies at once. Offline capable.
 * [x] Set up module structure
 
 ### Improvements
+* [ ] Create response class to wrap connectivity exceptions and avoid throwing from use-case
 * [ ] Improve currency list appearance/performance and add image caching
 * [ ] Add recently used currencies to top of currency list
 * [ ] Add keyboard filtering to currency selection list
