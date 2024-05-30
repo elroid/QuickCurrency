@@ -1,4 +1,4 @@
-package com.elroid.currency.ui.main
+package com.elroid.currency.feature.converter
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.elroid.currency.core.model.Currency
-import com.elroid.currency.data.local.LocalCurrency
-import com.elroid.currency.ui.theme.QuickCurrencyTheme
+import com.elroid.currency.feature.common.theme.QuickCurrencyTheme
 
 @Composable
 fun CurrencyListDialog(
@@ -88,12 +87,12 @@ fun CurrencyRow(
 fun CurrencyRowPreview() {
     QuickCurrencyTheme {
         CurrencyRow(
-            LocalCurrency(
-                "GBP",
-                "Pound Sterling",
-                "United Kingdom",
-                "https://currencyfreaks.com/photos/flags/gbp.png"
-            ),
+            object : Currency {
+                override val currencyCode: String = "GBP"
+                override val currencyName: String = "Pound Sterling"
+                override val countryName: String = "United Kingdom"
+                override val iconUrl: String = "https://currencyfreaks.com/photos/flags/gbp.png"
+            },
             {}
         )
     }

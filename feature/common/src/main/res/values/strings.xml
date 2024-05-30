@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quick Currency</string>
+    <string name="empty">Empty</string>
+    <string name="loading">Loading…</string>
+
+    <string name="err_unknown">An unknown error occurred, please try again.</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.elroid.currency.ui.main
+package com.elroid.currency.feature.converter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,12 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.elroid.currency.R
 import com.elroid.currency.core.model.CurrencyValue
-import com.elroid.currency.ui.common.format
-import com.elroid.currency.ui.common.symbol
-import com.elroid.currency.ui.common.timeAgo
-import com.elroid.currency.ui.theme.QuickCurrencyTheme
+import com.elroid.currency.feature.common.utilities.format
+import com.elroid.currency.feature.common.utilities.symbol
+import com.elroid.currency.feature.common.theme.QuickCurrencyTheme
+import com.elroid.currency.feature.common.utilities.timeAgo
+import com.elroid.currency.feature.common.R as commonR
+import com.elroid.currency.feature.converter.R as converterR
 
 @Composable
 fun CurrencyGroup(
@@ -77,13 +78,13 @@ fun CurrencyGroup(
             }
 
             LoadingState -> {
-                FullWidthText(text = stringResource(id = R.string.loading))
+                FullWidthText(text = stringResource(id = commonR.string.loading))
             }
 
             is ListDataState -> {
                 val list = listState.currencyValues
                 if (list.isEmpty()) {
-                    FullWidthText(text = stringResource(R.string.empty))
+                    FullWidthText(text = stringResource(commonR.string.empty))
                 }
                 list.forEach { currencyValue ->
                     ConvertedCurrencyRow(
@@ -119,7 +120,7 @@ fun CurrencyEdit(
             onCurrencyValueChange(it)
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-        label = { Text(stringResource(R.string.enter_amount)) },
+        label = { Text(stringResource(converterR.string.enter_amount)) },
         textStyle = MaterialTheme.typography.titleLarge,
         modifier = modifier
     )
@@ -156,7 +157,10 @@ fun ConvertedCurrencyRow(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         OutlinedButton(onClick = { onClickDeleteCurrency(currencyValue.currencyCode) }) {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.remove_currency))
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = stringResource(converterR.string.remove_currency)
+            )
         }
     }
 }

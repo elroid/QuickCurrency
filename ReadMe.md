@@ -7,7 +7,7 @@ convert between various currencies at once. Offline capable.
 
 ## Modularisation Diagram
 
-<img src="docs/module-diagram.png" width="1000" height="750" alt="Modularisation diagram">
+<img src="docs/module-diagram.png" width="1000" height="725" alt="Modularisation diagram">
 
 ## Tasks
 
@@ -21,7 +21,7 @@ convert between various currencies at once. Offline capable.
 * [x] Make base currency and target currency list dynamic and stored locally
 * [x] Add offline support to currency API + add rates timestamp
 * [x] Add error messaging
-* [ ] Set up module structure
+* [x] Set up module structure
 
 ### Improvements
 * [ ] Improve currency list appearance/performance and add image caching

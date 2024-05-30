@@ -15,7 +15,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(projects.core.model)
+    api(projects.core.model)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.annotations)

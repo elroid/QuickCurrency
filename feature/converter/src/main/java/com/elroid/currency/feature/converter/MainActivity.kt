@@ -1,4 +1,4 @@
-package com.elroid.currency.ui.main
+package com.elroid.currency.feature.converter
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,12 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import co.touchlab.kermit.Logger
-import com.elroid.currency.R
-import com.elroid.currency.ui.theme.QuickCurrencyTheme
+import com.elroid.currency.feature.common.theme.QuickCurrencyTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
+import com.elroid.currency.feature.common.R as commonR
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity(), KoinComponent {
@@ -50,7 +49,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 titleContentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             title = {
-                                Text(text = stringResource(R.string.app_name))
+                                Text(text = stringResource(commonR.string.app_name))
                             }
                         )
                     },

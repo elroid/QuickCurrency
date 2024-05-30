@@ -1,4 +1,4 @@
-package com.elroid.currency.ui.main
+package com.elroid.currency.feature.converter
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
@@ -7,7 +7,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
-import com.elroid.currency.R
 import com.elroid.currency.core.common.exception.isConnectivityError
 import com.elroid.currency.core.domain.usecase.ConvertCurrency
 import com.elroid.currency.core.model.Currency
@@ -16,6 +15,8 @@ import com.elroid.currency.core.model.repository.CurrencyRepository
 import com.elroid.currency.core.model.repository.PrefsRepository
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import com.elroid.currency.feature.common.R as commonR
+import com.elroid.currency.feature.converter.R as converterR
 
 sealed class ListState
 data object InitState : ListState()
@@ -23,8 +24,8 @@ data object LoadingState : ListState()
 data class ListDataState(val currencyValues: List<CurrencyValue>, val timestamp: Long) : ListState()
 
 enum class Error(@StringRes val errorStringId: Int) {
-    NO_CONNECTION(R.string.err_connection),
-    UNKNOWN(R.string.err_unknown)
+    NO_CONNECTION(converterR.string.err_connection),
+    UNKNOWN(commonR.string.err_unknown)
 }
 
 @KoinViewModel

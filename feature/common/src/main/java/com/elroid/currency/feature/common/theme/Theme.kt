@@ -1,4 +1,4 @@
-package com.elroid.currency.ui.theme
+package com.elroid.currency.feature.common.theme
 
 import android.app.Activity
 import android.os.Build

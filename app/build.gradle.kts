@@ -35,19 +35,13 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.java.get()
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
     ksp {
-        arg("KOIN_DEFAULT_MODULE","false")
+        arg("KOIN_DEFAULT_MODULE", "false")
     }
 }
 
@@ -63,16 +57,6 @@ dependencies {
     implementation(projects.feature.common)
     implementation(projects.feature.converter)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.compose.compiler)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.koin.annotations)
@@ -80,22 +64,7 @@ dependencies {
     ksp(libs.koin.ksp.compiler)
     implementation(libs.kotlinx.coroutinesCore)
 
-    implementation(libs.ui.coil)
-    implementation(libs.ui.coil.compose)
     implementation(libs.utilities.kermit)
 
-    testImplementation(libs.junit)
-    testImplementation(libs.koin.test)
-    testImplementation(libs.koin.test.junit)
-    testImplementation(libs.test.kotlinx.coroutines)
-    testImplementation(libs.test.mockk)
-    testImplementation(libs.test.mockk.android)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.koin.android.test)
 }

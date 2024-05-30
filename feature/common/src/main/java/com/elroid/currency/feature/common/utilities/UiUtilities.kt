@@ -1,4 +1,4 @@
-package com.elroid.currency.ui.common
+package com.elroid.currency.feature.common.utilities
 
 import android.content.Context
 import android.os.Handler
