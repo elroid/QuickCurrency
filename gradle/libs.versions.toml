@@ -1,6 +1,10 @@
 [versions]
 activityCompose = "1.8.2"
+androidCompileSdk="34"
+androidMinSdk="26"
+androidTargetSdk="34"
 agp = "8.4.0"
+appcompat = "1.6.1"
 coil = "2.4.0"
 composeBom = "2024.03.00"
 composeCompiler = "1.5.11"
@@ -9,6 +13,7 @@ coroutines = "1.7.3"
 datastore = "1.0.0"
 espressoCore = "3.5.1"
 java = "17"
+jetbrainsKotlinJvm = "1.9.23"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 kermit = "1.2.2"
@@ -17,6 +22,7 @@ koin-core-bom = "3.5.1"
 kotlin = "1.9.23"
 ksp = "1.9.23-1.0.19"
 lifecycleRuntimeKtx = "2.7.0"
+material = "1.10.0"
 mockk = "1.13.7"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
@@ -26,6 +32,7 @@ serialization-json = "1.5.1"
 store5 = "5.0.0"
 
 [libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -45,9 +52,10 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 koin-android = { group = "io.insert-koin", name = "koin-android" }
-#koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
+koin-android-test = { group = "io.insert-koin", name = "koin-android-test" }
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin-core-bom" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
 koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-annotations" }
@@ -71,7 +79,10 @@ utilities-kermit = { group = "co.touchlab", name = "kermit", version.ref = "kerm
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 serialization = { id = "plugin.serialization", version.ref = "kotlin" }
+roomPlugin = { id = "androidx.room", version.ref = "room" }
 

@@ -4,4 +4,6 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.ksp)
     kotlin(libs.plugins.serialization.get().pluginId).version(libs.versions.kotlin)
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.roomPlugin) apply false
 }
